@@ -25,7 +25,7 @@ function buscarMesa() {
 
   if (mesa) {
     resultado.textContent = `Tu mesa es la número ${mesa}.`;
-    resultado.style.color = "green";
+    resultado.style.color = "white";
   } else {
     resultado.textContent = "DNI no encontrado. Verificá que esté correcto.";
     resultado.style.color = "red";
