@@ -2,77 +2,129 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Consulta tu mesa</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
     body {
-      background-image: url('img/fondo.jpg');
+      font-family: 'Inter', sans-serif;
+      background: url('img/fondo.jpg') no-repeat center center fixed;
       background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      font-family: Arial, sans-serif;
-      background-color: #000407;
+      margin: 0;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
+      color: white;
+      text-align: center;
+      backdrop-filter: brightness(0.8);
     }
 
-    /* 🔹 Título principal */
     h1 {
-      color: white;             /* texto blanco */
-      font-size: 48px;          /* más grande */
-      margin-bottom: 30px;      /* separación con el input */
-      text-align: center;
-      font-weight: 700;
-      background: none;         /* sin fondo */
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.7); /* sombra para contraste */
+      font-size: 2.6em;
+      font-weight: 400;
+      margin-bottom: 40px;
+      letter-spacing: 0.5px;
     }
 
     input {
-      padding: 10px;
-      font-size: 16px;
-      margin: 10px;
-      width: 220px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid white;
+      color: white;
+      font-size: 1.1em;
+      padding: 8px;
+      width: 240px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #ffffffcc;
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
     }
 
     button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      background-color: #007bff;
+      margin-top: 25px;
+      background: none;
+      border: 1px solid white;
       color: white;
-      border: none;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
+      font-size: 1em;
+      padding: 10px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
 
     button:hover {
-      background-color: #0056b3;
+      background: white;
+      color: black;
     }
 
-    /* 🔹 Resultado (número de mesa) */
     #resultado {
-      margin-top: 30px;
-      font-size: 40px;          /* grande */
-      font-weight: bold;
-      color: rgb(239, 234, 234);             /* blanco */
-      text-align: center;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.8); /* para que se vea sobre el fondo */
+      margin-top: 35px; /* reducido el espacio */
+      line-height: 1.4;
     }
+
+    #resultado .nombre {
+      font-size: 2.2em;
+      font-weight: 500;
+      margin-bottom: 15px;
+    }
+
+    #resultado .mesa {
+      font-size: 2em;
+      font-weight: 400;
+      margin-bottom: 15px; /* espacio menor */
+    }
+
+    #resultado .companeros {
+      font-size: 1.4em;
+      font-weight: 300;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* === Branding minimalista === */
+    .branding {
+      position: fixed;
+      bottom: 20px;
+      right: 25px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      opacity: 0.8;
+    }
+
+    .branding img {
+      height: 90px;
+      width: auto;
+      filter: brightness(0) invert(1); /* hace las imágenes blancas sobre fondo oscuro */
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
   </style>
 </head>
 <body>
-
   <h1>Consulta tu número de mesa</h1>
   <input type="text" id="dni" placeholder="Ingresá tu DNI">
   <button onclick="buscarMesa()">Buscar</button>
-  <p id="resultado"></p>
+  <div id="resultado"></div>
+
+  <!-- Branding en esquina inferior derecha -->
+  <div class="branding">
+    <img src="img/Logos-MERCO.png" alt="Logo MERCO">
+    <img src="img/Logos-VMC.png" alt="Logo VMC">
+  </div>
 
   <script src="script.js"></script>
-
 </body>
 </html>

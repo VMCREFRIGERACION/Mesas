@@ -1,38 +1,38 @@
-let datos = [];
+let personas = [];
 
-async function cargarDatos() {
-  const response = await fetch("mesas.csv");
-  const text = await response.text();
-
-  const filas = text.trim().split("\n").slice(1); // salteo encabezado
-  datos = filas.map(fila => {
-    const [dni, nombre, mesa] = fila.split(",").map(v => v.trim());
-    return { dni, nombre, mesa };
+// Cargar el archivo CSV
+fetch('mesas.csv')
+  .then(response => response.text())
+  .then(data => {
+    const filas = data.trim().split('\n').slice(1); // salta encabezado
+    personas = filas.map(linea => {
+      const [dni, nombre, mesa] = linea.split(',');
+      return { dni: dni.trim(), nombre: nombre.trim(), mesa: mesa.trim() };
+    });
   });
-}
 
-async function buscarMesa() {
-  if (datos.length === 0) await cargarDatos();
-
+function buscarMesa() {
   const dniInput = document.getElementById("dni").value.trim();
+  const persona = personas.find(p => p.dni === dniInput);
   const resultado = document.getElementById("resultado");
 
-  const persona = datos.find(p => p.dni === dniInput);
-
   if (persona) {
-    // buscar todas las personas con la misma mesa
-    const companeros = datos.filter(p => p.mesa === persona.mesa);
+    // Buscar compañeros de la misma mesa (excluyendo al usuario)
+    const companeros = personas
+      .filter(p => p.mesa === persona.mesa && p.dni !== persona.dni)
+      .map(p => p.nombre);
+
+    // Generar el texto con los nombres separados por " - "
+    const listaCompaneros = companeros.join(' - ');
 
     resultado.innerHTML = `
-      <p style="color:white; font-size:24px;">
-        Hola <b>${persona.nombre}</b>, tu mesa es la <b style="color:white;">${persona.mesa}</b>
-      </p>
-      <p style="color:white; font-size:20px;">Compartís la mesa con:</p>
-      <ul style="color:white; font-size:18px; list-style:none; padding:0;">
-        ${companeros.map(c => `<li>${c.nombre}</li>`).join("")}
-      </ul>
+      <div class="nombre">Hola ${persona.nombre}, tu mesa es la N°${persona.mesa}</div>
+      <div class="companeros">
+        Compartís la mesa con:<br>
+        <span style="display:inline-block; margin-top:8px;">${listaCompaneros}</span>
+      </div>
     `;
   } else {
-    resultado.innerHTML = `<p style="color:red;">DNI no encontrado. Verificá que esté correcto.</p>`;
+    resultado.innerHTML = `<div class="mesa">DNI no encontrado. Verificá que esté correcto.</div>`;
   }
 }
