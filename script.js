@@ -16,23 +16,29 @@ function buscarMesa() {
   const persona = personas.find(p => p.dni === dniInput);
   const resultado = document.getElementById("resultado");
 
+  // Reinicia la animación en cada búsqueda
+  resultado.innerHTML = "";
+  void resultado.offsetWidth;
+
   if (persona) {
-    // Buscar compañeros de la misma mesa (excluyendo al usuario)
     const companeros = personas
       .filter(p => p.mesa === persona.mesa && p.dni !== persona.dni)
-      .map(p => p.nombre);
+      .map(p => `<span>${p.nombre}</span>`)
+      .join("");
 
-    // Generar el texto con los nombres separados por " - "
-    const listaCompaneros = companeros.join(' - ');
+    const nombre = persona.nombre.split(" ")[0];
 
     resultado.innerHTML = `
-      <div class="nombre">Hola ${persona.nombre}, tu mesa es la N°${persona.mesa}</div>
-      <div class="companeros">
-        Compartís la mesa con:<br>
-        <span style="display:inline-block; margin-top:8px;">${listaCompaneros}</span>
-      </div>
+      <div class="saludo">¡Hola ${nombre}! Tu mesa es la</div>
+      <div class="numero-mesa">MESA <span>${persona.mesa}</span></div>
+      ${companeros ? `
+        <div class="titulo-companeros">Compartís la mesa con</div>
+        <div class="lista-companeros">${companeros}</div>` : ""}
     `;
   } else {
-    resultado.innerHTML = `<div class="mesa">DNI no encontrado. Verificá que esté correcto.</div>`;
+    resultado.innerHTML = `
+      <div class="no-encontrado">
+        No encontramos ese DNI 😕<br>Revisalo o consultá en la entrada.
+      </div>`;
   }
 }
