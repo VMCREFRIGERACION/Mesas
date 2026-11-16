@@ -26,10 +26,11 @@
 
     h1 {
       font-size: 2.6em;
-      font-weight: 400;
+      font-weight: 300;
       margin-top: 70px;
       margin-bottom: 40px;
-      letter-spacing: 0.5px;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, .6);
     }
 
     input {
@@ -70,33 +71,87 @@
       color: black;
     }
 
+    /* ===== Resultado ===== */
     #resultado {
       margin-top: 35px;
       line-height: 1.4;
-      padding: 0 20px;
     }
 
-    #resultado .nombre {
-      font-size: 2.2em;
-      font-weight: 500;
-      margin-bottom: 15px;
+    #resultado:not(:empty) {
+      box-sizing: border-box;
+      width: min(680px, 90vw);
+      padding: 22px 28px;
+      background: rgba(0, 0, 0, .55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, .15);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, .8);
+      animation: aparecer .5s ease-out both;
     }
 
-    #resultado .mesa {
-      font-size: 2em;
-      font-weight: 400;
-      margin-bottom: 15px;
+    @media (min-width: 768px) {
+      #resultado:not(:empty) {
+        position: absolute;
+        top: 54vh;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        animation-name: aparecerPC;
+      }
     }
 
-    #resultado .companeros {
-      font-size: 1.4em;
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes aparecerPC {
+      from { opacity: 0; transform: translate(-50%, 14px); }
+      to   { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    #resultado .saludo {
+      font-size: 1.2em;
       font-weight: 300;
-      opacity: 0.9;
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.8;
+      opacity: .9;
     }
-
+    #resultado .numero-mesa {
+      font-size: 3.2em;
+      font-weight: 600;
+      line-height: 1.1;
+      margin: 4px 0 14px;
+      letter-spacing: 1px;
+    }
+    #resultado .numero-mesa span {
+      color: #e3201f;
+      text-shadow: 0 0 14px rgba(200, 0, 0, .45);
+    }
+    #resultado .titulo-companeros {
+      font-size: .85em;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: .7;
+      margin-bottom: 10px;
+    }
+    #resultado .lista-companeros {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+    #resultado .lista-companeros span {
+      font-size: .95em;
+      font-weight: 300;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .18);
+    }
+    #resultado .no-encontrado {
+      font-size: 1.1em;
+      font-weight: 300;
+      line-height: 1.6;
+    }
 
     /* ================================
        LOGOS – PC (FIJOS)
@@ -117,7 +172,6 @@
       filter: brightness(0) invert(1);
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
-
 
     /* ================================
        VERSIÓN MÓVIL
@@ -151,7 +205,8 @@
 
   <h1>Consulta tu número de mesa</h1>
 
-  <input type="text" id="dni" placeholder="Ingresá tu DNI">
+  <input type="text" id="dni" placeholder="Ingresá tu DNI" inputmode="numeric"
+         onkeydown="if(event.key==='Enter') buscarMesa()">
   <button onclick="buscarMesa()">Buscar</button>
 
   <div id="resultado"></div>
@@ -166,5 +221,3 @@
 
 </body>
 </html>
-
-
