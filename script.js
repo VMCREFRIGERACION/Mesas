@@ -30,7 +30,7 @@ function buscarMesa() {
 
     resultado.innerHTML = `
       <div class="saludo">¡Hola ${nombre}! Tu mesa es la</div>
-      <div class="numero-mesa">MESA <span>${persona.mesa}</span></div>
+      <div class="numero-mesa"><span>${persona.mesa}</span></div>
       ${companeros ? `
         <div class="titulo-companeros">Compartís la mesa con</div>
         <div class="lista-companeros">${companeros}</div>` : ""}
