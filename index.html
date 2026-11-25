@@ -20,7 +20,7 @@
       align-items: center;
       justify-content: flex-start;
       color: white;
-      text-align: center;
+      text-align: center;filter: blur(4px) brightness(.55);
       padding-bottom: 0;
     }
 
@@ -186,7 +186,7 @@
     }
 
     /* ================================
-       VERSIÓN MÓVIL
+      VERSIÓN MÓVIL
        ================================ */
     @media (max-width: 768px) {
 
@@ -213,7 +213,7 @@
       /* Fondo desenfocado para que no se note la baja resolución */
       body::before {
         background-position: center 35%;
-        filter: blur(8px) brightness(.55);
+        filter: blur(4px) brightness(.55);
         transform: scale(1.1);
       }
     }
