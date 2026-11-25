@@ -1,242 +1,245 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consulta tu mesa</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consulta tu mesa</title>
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
-    html { background: #000; }
+html { background: #000; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      min-height: 100vh;
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      color: white;
-      text-align: center;filter: blur(4px) brightness(.55);
-      padding-bottom: 0;
-    }
+/* ================================
+   PC (como estaba el 16/11)
+   ================================ */
+body {
+    font-family: 'Inter', sans-serif;
+    background: url('img/2026-11-16.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    color: white;
+    text-align: center;
+    backdrop-filter: brightness(0.8);
+    padding-bottom: 0;
+}
 
-    /* Fondo en capa fija: funciona bien en iPhone y Android */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      background:
-        linear-gradient(rgba(0,0,0,.2), rgba(0,0,0,.2)),
-        url('img/2026-11-16.jpeg') center 40% / cover no-repeat;
-    }
+h1 {
+    font-size: 1.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    opacity: .7;
+    margin-top: 70px;
+    margin-bottom: 40px;
+}
 
-    h1 {
-      font-size: 1.5em;
-      font-weight: 400;
-      text-transform: uppercase;
-      letter-spacing: 4px;
-      opacity: .7;
-      margin-top: 70px;
-      margin-bottom: 40px;
-    }
+input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid white;
+    color: white;
+    font-size: 1.1em;
+    padding: 8px;
+    width: 240px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
 
-    input {
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid white;
-      color: white;
-      font-size: 1.1em;
-      padding: 8px;
-      width: 240px;
-      text-align: center;
-      outline: none;
-      transition: border-color 0.3s ease;
-    }
+input:focus {
+    border-color: #ffffffcc;
+}
 
-    input:focus {
-      border-color: #ffffffcc;
-    }
+input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
 
-    input::placeholder {
-      color: rgba(255, 255, 255, 0.6);
-    }
+button {
+    margin-top: 25px;
+    background: none;
+    border: 1px solid white;
+    color: white;
+    font-size: 1em;
+    padding: 10px 25px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-    button {
-      margin-top: 25px;
-      background: none;
-      border: 1px solid white;
-      color: white;
-      font-size: 1em;
-      padding: 10px 25px;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+button:hover {
+    background: white;
+    color: black;
+}
 
-    button:hover {
-      background: white;
-      color: black;
-    }
+/* ===== Resultado ===== */
+#resultado {
+    margin-top: 35px;
+    line-height: 1.4;
+}
 
-    /* ===== Resultado ===== */
-    #resultado {
-      margin-top: 35px;
-      line-height: 1.4;
-    }
+#resultado:not(:empty) {
+    box-sizing: border-box;
+    width: min(680px, 90vw);
+    padding: 22px 28px;
+    background: rgba(0, 0, 0, .55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, .15);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, .8);
+    animation: aparecer .5s ease-out both;
+}
 
+@media (min-width: 768px) {
     #resultado:not(:empty) {
-      box-sizing: border-box;
-      width: min(680px, 90vw);
-      padding: 22px 28px;
-      background: rgba(0, 0, 0, .55);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: 18px;
-      border: 1px solid rgba(255, 255, 255, .15);
-      text-shadow: 0 1px 4px rgba(0, 0, 0, .8);
-      animation: aparecer .5s ease-out both;
-    }
-
-    @media (min-width: 768px) {
-      #resultado:not(:empty) {
         position: absolute;
         top: 54vh;
         left: 50%;
         transform: translateX(-50%);
         margin: 0;
         animation-name: aparecerPC;
-      }
     }
+}
 
-    @keyframes aparecer {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: none; }
-    }
-    @keyframes aparecerPC {
-      from { opacity: 0; transform: translate(-50%, 14px); }
-      to   { opacity: 1; transform: translate(-50%, 0); }
-    }
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+}
+@keyframes aparecerPC {
+    from { opacity: 0; transform: translate(-50%, 14px); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
+}
 
-    #resultado .saludo {
-      font-size: 1.2em;
-      font-weight: 300;
-      opacity: .9;
-    }
-    #resultado .numero-mesa {
-      font-size: 4em;
-      font-weight: 600;
-      line-height: 1.1;
-      margin: 4px 0 14px;
-      letter-spacing: 1px;
-    }
-    #resultado .numero-mesa span {
-      color: #e3201f;
-      text-shadow: 0 0 14px rgba(200, 0, 0, .45);
-    }
-    #resultado .titulo-companeros {
-      font-size: .85em;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      opacity: .7;
-      margin-bottom: 10px;
-    }
-    #resultado .lista-companeros {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-    }
-    #resultado .lista-companeros span {
-      font-size: .95em;
-      font-weight: 300;
-      padding: 5px 12px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, .1);
-      border: 1px solid rgba(255, 255, 255, .18);
-    }
-    #resultado .no-encontrado {
-      font-size: 1.1em;
-      font-weight: 300;
-      line-height: 1.6;
-    }
+#resultado .saludo {
+    font-size: 1.2em;
+    font-weight: 300;
+    opacity: .9;
+}
+#resultado .numero-mesa {
+    font-size: 4em;
+    font-weight: 600;
+    line-height: 1.1;
+    margin: 4px 0 14px;
+    letter-spacing: 1px;
+}
+#resultado .numero-mesa span {
+    color: #e3201f;
+    text-shadow: 0 0 14px rgba(200, 0, 0, .45);
+}
+#resultado .titulo-companeros {
+    font-size: .85em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: .7;
+    margin-bottom: 10px;
+}
+#resultado .lista-companeros {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+#resultado .lista-companeros span {
+    font-size: .95em;
+    font-weight: 300;
+    padding: 5px 12px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, .1);
+    border: 1px solid rgba(255, 255, 255, .18);
+}
+#resultado .no-encontrado {
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.6;
+}
 
-    /* ================================
-       LOGOS – PC (FIJOS)
-       ================================ */
+/* ================================
+   LOGOS – PC (FIJOS)
+   ================================ */
+.branding {
+    position: fixed;
+    bottom: 20px;
+    right: 25px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    opacity: 0.8;
+}
+
+.branding img {
+    height: 90px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ================================
+   VERSIÓN MÓVIL
+   ================================ */
+@media (max-width: 768px) {
+
+    /* Logos dejan de ser fijos y bajan debajo del contenido */
     .branding {
-      position: fixed;
-      bottom: 20px;
-      right: 25px;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      opacity: 0.8;
-    }
-
-    .branding img {
-      height: 90px;
-      width: auto;
-      filter: brightness(0) invert(1);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    /* ================================
-      VERSIÓN MÓVIL
-       ================================ */
-    @media (max-width: 768px) {
-
-      /* Logos dejan de ser fijos y bajan debajo del contenido */
-      .branding {
         position: static;
         margin-top: 40px;
         justify-content: center;
-      }
+    }
 
-      .branding img {
+    .branding img {
         height: 60px;
-      }
+    }
 
-      body {
-        padding-bottom: 40px; /* pequeño espacio, no molesta */
-      }
+    /* En celulares el fondo pasa a una capa fija (abajo) */
+    body {
+        background: none;
+        backdrop-filter: none;
+        padding-bottom: 40px;
+    }
 
-      h1 {
+    h1 {
         margin-top: 40px;
         font-size: 1.15em;
-      }
-
-      /* Fondo desenfocado para que no se note la baja resolución */
-      body::before {
-        background-position: center 35%;
-        filter: blur(4px) brightness(.55);
-        transform: scale(1.1);
-      }
     }
-  </style>
+
+    /* Fondo fijo con un desenfoque mínimo: funciona en iPhone y Android.
+       Mismo brillo que en PC. Solo afecta al fondo, no al texto. */
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background: url('img/2026-11-16.jpeg') center 35% / cover no-repeat;
+        filter: blur(1.5px) brightness(0.8);
+        transform: scale(1.03); /* evita bordes claros por el blur */
+    }
+}
+</style>
 </head>
 
 <body>
 
-  <h1>Consulta tu número de mesa</h1>
+<h1>Consulta tu número de mesa</h1>
 
-  <input type="text" id="dni" placeholder="Ingresá tu DNI" inputmode="numeric"
-         onkeydown="if(event.key==='Enter') buscarMesa()">
-  <button onclick="buscarMesa()">Buscar</button>
+<input type="text" id="dni" placeholder="Ingresá tu DNI" inputmode="numeric"
+       onkeydown="if(event.key==='Enter') buscarMesa()">
+<button onclick="buscarMesa()">Buscar</button>
 
-  <div id="resultado"></div>
+<div id="resultado"></div>
 
-  <!-- Branding -->
-  <div class="branding">
+<!-- Branding -->
+<div class="branding">
     <img src="img/Logos-MERCO.png" alt="Logo MERCO">
     <img src="img/Logos-VMC.png" alt="Logo VMC">
-  </div>
+</div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
