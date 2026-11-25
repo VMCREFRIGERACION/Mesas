@@ -185,10 +185,11 @@ button:hover {
    ================================ */
 @media (max-width: 768px) {
 
-    /* Logos dejan de ser fijos y bajan debajo del contenido */
+    /* Logos al pie de la pantalla (sin taparse con el resultado) */
     .branding {
         position: static;
-        margin-top: 40px;
+        margin-top: auto;      /* los empuja al fondo de la pantalla */
+        padding-top: 40px;     /* espacio mínimo si hay mucho contenido */
         justify-content: center;
     }
 
