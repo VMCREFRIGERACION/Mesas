@@ -176,7 +176,8 @@ button:hover {
 .branding img {
     height: 90px;
     width: auto;
-    filter: brightness(0) invert(1);
+    /* Los PNG ya son blancos: sin filter (en Android Chrome el filter
+       sobre imágenes grandes hacía que no se dibujaran) */
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
@@ -195,6 +196,8 @@ button:hover {
 
     .branding img {
         height: 60px;
+        max-width: 30vw;       /* que entren los 3 logos en pantallas chicas */
+        object-fit: contain;
     }
 
     /* En celulares el fondo pasa a una capa fija (abajo) */
@@ -236,10 +239,10 @@ button:hover {
 
 <!-- Branding -->
 <div class="branding">
-    <img src="img/Logos-MERCO.png" alt="Logo MERCO">
-    <img src="img/Logos-CRISTALCIL.png" alt="Logo Hielo Cristalcil">
-    <img src="img/Logos-VMC.png" alt="Logo VMC">
-</div>
+    <img src="img/Logos-VMC.png" alt="Logo VMC" decoding="async">
+    <img src="img/Logos-MERCO.png" alt="Logo MERCO" decoding="async">
+    <img src="img/Logos-CRISTALCIL.png" alt="Logo Hielo Cristalcil" decoding="async">
+    </div>
 
 <script src="script.js"></script>
 
